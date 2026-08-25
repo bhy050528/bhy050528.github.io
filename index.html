@@ -48,10 +48,10 @@ select:focus,input:focus{border-color:#ef7179;box-shadow:0 0 0 3px rgba(230,0,18
   <aside class="card">
     <div class="section">
       <div class="section-title"><span class="step">1</span>航班信息</div>
-      <div class="field"><label>航空公司</label><select id="airline"><option value="8L">祥鹏航空 8L</option><option value="PN">西部航空 PN</option><option value="JD">首都航空 JD</option></select></div>
+      <div class="field"><label>航空公司</label><select id="airline"><option value="8L">祥鹏航空 8L</option></select></div>
       <div class="grid2">
         <div class="field"><label>出发机场</label><select id="from"><option value="DLU">大理凤仪机场 DLU</option></select></div>
-        <div class="field"><label>到达机场 / 航段</label><select id="dest"><option value="JHG">西双版纳 JHG</option><option value="KWE">贵阳 KWE</option><option value="LZO">泸州 LZO</option><option value="ZYI">遵义（新舟） ZYI</option><option value="WUH">武汉 WUH</option><option value="CTU">成都 CTU</option><option value="CSX">长沙 CSX</option><option value="XIY">西安 XIY</option><option value="KHN">南昌 KHN</option><option value="XUZ">徐州 XUZ</option><option value="HFE">合肥 HFE</option><option value="SHA">上海虹桥 SHA</option><option value="CGO">郑州 CGO</option><option value="TNA">济南 TNA</option><option value="ZUH">珠海 ZUH</option><option value="YNZ">盐城 YNZ</option><option value="SJW">石家庄 SJW</option></select></div>
+        <div class="field"><label>到达机场 / 航段</label><select id="dest"><option value="JHG">西双版纳 JHG</option><option value="KWE">贵阳 KWE</option><option value="LZO">泸州 LZO</option><option value="ZYI">遵义（新舟） ZYI</option><option value="WUH">武汉 WUH</option><option value="TFU">成都 TFU</option><option value="CSX">长沙 CSX</option><option value="XIY">西安 XIY</option><option value="WMT">遵义（茅台） WMT</option><option value="KHN">南昌 KHN</option><option value="XUZ">徐州 XUZ</option><option value="HFE">合肥 HFE</option><option value="PVG">上海 PVG</option><option value="CGO">郑州 CGO</option><option value="TNA">济南 TNA</option><option value="ZUH">珠海 ZUH</option><option value="YNZ">盐城 YNZ</option><option value="SJW">石家庄 SJW</option></select></div>
       </div>
       <div class="info" id="routeInfo"></div>
     </div>
@@ -62,18 +62,19 @@ select:focus,input:focus{border-color:#ef7179;box-shadow:0 0 0 3px rgba(230,0,18
         <div class="field"><label>一起出行旅客人数</label><input id="pax" type="number" min="1" max="20" value="5" /></div>
         <div class="field"><label>整组旅客合计超额行李（kg）</label><input id="excess" type="number" min="0" step="1" value="30" /></div>
       </div>
-      <div class="tip">这里填写的是这组旅客一共需要处理的超额行李公斤数。推荐升舱时，会自动计算升舱附带行李额，剩余行李可按托运单价补算；总行李超过30kg且剩余1-3kg时，会显示可抹除。</div>
+      <div class="tip">这里填写的是这组旅客一共需要处理的超额行李公斤数。推荐升舱时，会自动计算升舱附带行李额，剩余行李可按托运单价补算；抹除按每10kg行李额最多抹除1kg计算，超出不能抹除。</div>
     </div>
 
     <div class="section">
       <div class="section-title"><span class="step">3</span>升舱方案</div>
       <div class="field"><label>悦享经济舱排数</label><div class="pills" id="rowPills"></div></div>
       <div class="field"><label>可组合的升舱产品</label><div class="pills" id="bagPills"></div></div>
+      <div class="field"><label>剩余行李处理</label><div class="pills" id="remainPills"></div></div>
       <div class="actions"><button class="btn secondary" id="reset">重置</button><button class="btn primary" id="calc">开始计算</button></div>
     </div>
 
     <div class="section">
-      <div class="data-note">当前演示数据来自你提供的祥鹏航空 8L、西部航空 PN、首都航空 JD 升舱价目表。托运行李按航距：＜800km = 15元/kg；800–＜1600km = 20元/kg；≥1600km = 25元/kg。升舱推荐会自动组合无行李、10KG、15KG、20KG等产品，并把剩余未覆盖行李按托运或抹除规则一起计算。</div>
+      <div class="data-note">当前数据来自你提供的祥鹏航空 8L 升舱价目表。托运行李按航距：＜800km = 15元/kg；800–＜1600km = 20元/kg；≥1600km = 25元/kg。升舱推荐会自动组合无行李、10KG、15KG等产品；剩余行李可以选择另托运、按抹除上限处理，或自动按规则处理。</div>
     </div>
   </aside>
 
@@ -106,61 +107,45 @@ select:focus,input:focus{border-color:#ef7179;box-shadow:0 0 0 3px rgba(230,0,18
     <div class="rule" id="ruleNote"></div>
   </section>
 </main>
-<div class="footer">说明：航距使用机场经纬度的大圆距离估算，用于自动匹配托运行李价格档位。正式上线前可继续补充机场数据库、航司价目表及最新业务规则。</div>
+<div class="footer">说明：航距使用你提供的祥鹏升舱价目表数据，用于自动匹配托运行李价格档位。正式上线前可继续补充航线、价目表及最新业务规则。</div>
 
 <script>
-const airports={
- DLU:[25.6494,100.3190],CGO:[34.5197,113.8409],CKG:[29.7192,106.6417],NAO:[30.7955,106.1626],CSX:[28.1892,113.2196],WUH:[30.7838,114.2081],
- NKG:[31.7420,118.8620],HGH:[30.2295,120.4344],PEK:[40.0799,116.6031],NGB:[29.8267,121.4619],XIY:[34.4471,108.7516],NNG:[22.6083,108.1724],
- JHG:[21.9739,100.7596],KWE:[26.5385,106.8007],LZO:[28.8522,105.3925],ZYI:[27.5895,107.0007],CTU:[30.5785,103.9471],KHN:[28.8648,115.9000],
- XUZ:[34.0591,117.5553],HFE:[31.7800,117.2984],SHA:[31.1979,121.3363],TNA:[36.8572,117.2160],ZUH:[22.0064,113.3760],YNZ:[33.4258,120.2031],SJW:[38.2807,114.6973]
-};
 const data={
  '8L':{name:'祥鹏航空 8L',routes:{
-  JHG:{name:'西双版纳 JHG',first:{none:160,k10:240,k15:270},other:{none:120,k10:210,k15:230}},
-  KWE:{name:'贵阳 KWE',first:{none:160,k10:240,k15:270},other:{none:120,k10:210,k15:230}},
-  LZO:{name:'泸州 LZO',first:{none:160,k10:240,k15:270},other:{none:120,k10:210,k15:230}},
-  ZYI:{name:'遵义（新舟） ZYI',first:{none:160,k10:240,k15:270},other:{none:120,k10:210,k15:230}},
-  WUH:{name:'武汉 WUH',first:{none:200,k10:280,k15:310},other:{none:160,k10:240,k15:280}},
-  CTU:{name:'成都 CTU',first:{none:200,k10:280,k15:310},other:{none:160,k10:240,k15:280}},
-  CSX:{name:'长沙 CSX',first:{none:200,k10:280,k15:310},other:{none:160,k10:240,k15:280}},
-  XIY:{name:'西安 XIY',first:{none:200,k10:280,k15:310},other:{none:160,k10:240,k15:280}},
-  KHN:{name:'南昌 KHN',first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
-  XUZ:{name:'徐州 XUZ',first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
-  HFE:{name:'合肥 HFE',first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
-  SHA:{name:'上海虹桥 SHA',first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
-  CGO:{name:'郑州 CGO',first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
-  TNA:{name:'济南 TNA',first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
-  ZUH:{name:'珠海 ZUH',first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
-  YNZ:{name:'盐城 YNZ',first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
-  SJW:{name:'石家庄 SJW',first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}}
- }},
- 'PN':{name:'西部航空 PN',routes:{
-  CKG:{name:'重庆 CKG',first:{none:129,k10:239,k15:309},other:{none:99,k10:209,k15:279}},
-  NAO:{name:'南充 NAO',first:{none:129,k10:239,k15:309},other:{none:99,k10:209,k15:279}},
-  CSX:{name:'长沙 CSX',first:{none:129,k10:239,k15:309},other:{none:99,k10:209,k15:279}},
-  WUH:{name:'武汉 WUH',first:{none:129,k10:239,k15:309},other:{none:99,k10:209,k15:279}},
-  CGO:{name:'郑州 CGO',first:{none:129,k10:269,k15:359},other:{none:99,k10:239,k15:329}}
- }},
- 'JD':{name:'首都航空 JD',routes:{
-  NKG:{name:'南京 NKG',first:{none:198,k10:298,k15:378,k20:428},other:{none:148,k10:248,k15:328,k20:378}},
-  HGH:{name:'杭州 HGH',first:{none:198,k10:298,k15:378,k20:428},other:{none:148,k10:248,k15:328,k20:378}},
-  PEK:{name:'北京 PEK',first:{none:198,k10:298,k15:378,k20:428},other:{none:148,k10:248,k15:328,k20:378}},
-  NGB:{name:'宁波 NGB',first:{none:198,k10:298,k15:378,k20:428},other:{none:148,k10:248,k15:328,k20:378}},
-  XIY:{name:'西安 XIY',first:{none:168,k10:268,k15:348,k20:398},other:{none:128,k10:228,k15:308,k20:358}},
-  NNG:{name:'南宁 NNG',first:{none:168,k10:268,k15:348,k20:398},other:{none:128,k10:228,k15:308,k20:358}}
+  JHG:{name:'西双版纳 JHG',distance:470,first:{none:160,k10:240,k15:270},other:{none:120,k10:210,k15:230}},
+  KWE:{name:'贵阳 KWE',distance:786,first:{none:160,k10:240,k15:270},other:{none:120,k10:210,k15:230}},
+  LZO:{name:'泸州 LZO',distance:661,first:{none:160,k10:240,k15:270},other:{none:120,k10:210,k15:230}},
+  ZYI:{name:'遵义（新舟） ZYI',distance:948,first:{none:160,k10:240,k15:270},other:{none:120,k10:210,k15:230}},
+  WUH:{name:'武汉 WUH',distance:1595,first:{none:200,k10:280,k15:310},other:{none:160,k10:240,k15:280}},
+  TFU:{name:'成都 TFU',distance:975,first:{none:200,k10:280,k15:310},other:{none:160,k10:240,k15:280}},
+  CSX:{name:'长沙 CSX',distance:1413,first:{none:200,k10:280,k15:310},other:{none:160,k10:240,k15:280}},
+  XIY:{name:'西安 XIY',distance:1511,first:{none:200,k10:280,k15:310},other:{none:160,k10:240,k15:280}},
+  WMT:{name:'遵义（茅台） WMT',distance:948,first:{none:200,k10:280,k15:310},other:{none:160,k10:240,k15:280}},
+  KHN:{name:'南昌 KHN',distance:1724,first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
+  XUZ:{name:'徐州 XUZ',distance:2212,first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
+  HFE:{name:'合肥 HFE',distance:1923,first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
+  PVG:{name:'上海 PVG',distance:2462,first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
+  CGO:{name:'郑州 CGO',distance:1915,first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
+  TNA:{name:'济南 TNA',distance:2641,first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
+  ZUH:{name:'珠海 ZUH',distance:1644,first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
+  YNZ:{name:'盐城 YNZ',distance:2468,first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}},
+  SJW:{name:'石家庄 SJW',distance:2090,first:{none:240,k10:320,k15:360},other:{none:200,k10:280,k15:330}}
  }}
 };
 const bagAllowance={none:0,k10:10,k15:15,k20:20};
 const bagLabels={none:'无行李',k10:'带行李10KG',k15:'带行李15KG',k20:'带行李20KG'};
-let rowType='first';
+let rowType='first',remainMode='auto';
 const $=id=>document.getElementById(id);
-function hav(a,b){const R=6371,r=x=>x*Math.PI/180,[la1,lo1]=a,[la2,lo2]=b,dLa=r(la2-la1),dLo=r(lo2-lo1);const s=Math.sin(dLa/2)**2+Math.cos(r(la1))*Math.cos(r(la2))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(s));}
 function rateByDistance(km){return km<800?15:km<1600?20:25}
 function fillAirlines(){ $('airline').innerHTML=Object.entries(data).map(([k,v])=>`<option value="${k}">${v.name}</option>`).join(''); }
 function fillRoutes(){const a=$('airline').value;$('dest').innerHTML=Object.entries(data[a].routes).map(([k,v])=>`<option value="${k}">${v.name}</option>`).join('');refreshBagPills();}
 function fillRowPills(){ $('rowPills').innerHTML=`<div class="pill active" data-v="first">悦享经济舱第一排</div><div class="pill" data-v="other">悦享经济舱二、三排</div>`;[...$('rowPills').children].forEach(p=>p.onclick=()=>{rowType=p.dataset.v;[...$('rowPills').children].forEach(x=>x.classList.toggle('active',x===p));refreshBagPills();calculate();});}
 function refreshBagPills(){const r=data[$('airline').value].routes[$('dest').value][rowType];const keys=Object.keys(r);$('bagPills').innerHTML=keys.map(k=>`<div class="pill active" data-v="${k}">${bagLabels[k]} · ¥${r[k]}</div>`).join('');}
+function fillRemainPills(){
+ const labels={auto:'自动按规则',checked:'剩余全部托运',covered:'剩余按抹除上限'};
+ $('remainPills').innerHTML=Object.entries(labels).map(([k,v])=>`<div class="pill ${k===remainMode?'active':''}" data-v="${k}">${v}</div>`).join('');
+ [...$('remainPills').children].forEach(p=>p.onclick=()=>{remainMode=p.dataset.v;fillRemainPills();calculate();});
+}
 function buildCombos(products,pax){
  const results=[];
  function walk(start,chosen,covered,total){
@@ -183,37 +168,42 @@ function comboLabel(combo){
 }
 function remainderRule(kg,covered,rate){
  const remaining=Math.max(0,kg-covered);
- const waived=kg>30&&remaining>=1&&remaining<=3;
+ const maxWaive=Math.floor(covered/10);
+ const canWaive=remaining>0&&remaining<=maxWaive;
+ const waived=canWaive&&(remainMode==='covered'||remainMode==='auto');
+ const overWaiveLimit=remainMode==='covered'&&remaining>maxWaive;
  return {
   remaining,
   waived,
-  checkedKg: waived?0:remaining,
+  maxWaive,
+  overWaiveLimit,
   fee: waived?0:Math.round(remaining*rate),
-  text: remaining<=0?'已覆盖':waived?`${remaining} kg 可抹除`:`另托运 ${remaining} kg`
+  text: remaining<=0?'已覆盖':waived?`${remaining} kg 可抹除`:overWaiveLimit?`超出抹除上限，另托运 ${remaining} kg`:`另托运 ${remaining} kg`
  };
 }
 function calculate(){
  const a=$('airline').value,d=$('dest').value,pax=Math.max(1,parseInt($('pax').value||1)),kg=Math.max(0,parseFloat($('excess').value||0));
- const km=Math.round(hav(airports.DLU,airports[d]));const rate=rateByDistance(km);const bagTotal=Math.round(kg*rate);const route=data[a].routes[d][rowType];
+ const routeData=data[a].routes[d];const km=routeData.distance;const rate=rateByDistance(km);const bagTotal=Math.round(kg*rate);const route=routeData[rowType];
  const products=Object.entries(route).map(([key,price])=>({key,price,allowance:bagAllowance[key]||0,label:bagLabels[key]})).sort((x,y)=>x.allowance-y.allowance||x.price-y.price);
- const combos=buildCombos(products,pax).map(c=>{const rem=remainderRule(kg,c.covered,rate),planTotal=c.total+rem.fee,diff=planTotal-bagTotal;return {...c,label:comboLabel(c),remaining:rem.remaining,waived:rem.waived,remainderText:rem.text,remainderFee:rem.fee,planTotal,diff,abs:Math.abs(diff)};});
+ const combos=buildCombos(products,pax).map(c=>{const rem=remainderRule(kg,c.covered,rate),planTotal=c.total+rem.fee,diff=planTotal-bagTotal;return {...c,label:comboLabel(c),remaining:rem.remaining,waived:rem.waived,maxWaive:rem.maxWaive,overWaiveLimit:rem.overWaiveLimit,remainderText:rem.text,remainderFee:rem.fee,planTotal,diff,abs:Math.abs(diff)};});
  $('routeInfo').innerHTML=`航距约 <b>${km.toLocaleString()} km</b><br>托运行李单价：<b>${rate} 元/kg</b>（${km<800?'＜800':km<1600?'800–＜1600':'≥1600'} km）`;
  $('sumKg').textContent=kg;$('rate').textContent=rate;$('bagTotal').textContent=bagTotal;$('formula').textContent=`${kg} × ${rate} = ${bagTotal} 元`;
  const best=combos.sort((x,y)=>x.abs-y.abs||x.planTotal-y.planTotal||x.remaining-y.remaining||x.people-y.people||x.covered-y.covered)[0]||null;
  const shown=[...(best?[best]:[]),...combos.filter(c=>!best||c.label!==best.label).sort((x,y)=>x.abs-y.abs||x.planTotal-y.planTotal||x.remaining-y.remaining||x.people-y.people||x.covered-y.covered)].slice(0,10);
- $('rows').innerHTML=shown.map(c=>`<tr class="${best&&c.label===best.label?'best':''}"><td>${c.label}</td><td>${c.people} 人</td><td>${c.covered} kg</td><td>${c.remainderText}${c.remainderFee?` · ¥${c.remainderFee}`:''}</td><td>¥ ${c.planTotal}</td><td class="${c.diff<=0?'neg':'pos'}">${c.diff===0?'¥ 0':c.diff>0?'+ ¥ '+c.diff:'- ¥ '+Math.abs(c.diff)}</td><td>${best&&c.label===best.label?'<b style="color:#e60012">推荐</b>':c.remaining<=0?'已覆盖':c.waived?'可抹除':'补托运'}</td></tr>`).join('');
+ $('rows').innerHTML=shown.map(c=>`<tr class="${best&&c.label===best.label?'best':''}"><td>${c.label}</td><td>${c.people} 人</td><td>${c.covered} kg</td><td>${c.remainderText}${c.remainderFee?` · ¥${c.remainderFee}`:''}</td><td>¥ ${c.planTotal}</td><td class="${c.diff<=0?'neg':'pos'}">${c.diff===0?'¥ 0':c.diff>0?'+ ¥ '+c.diff:'- ¥ '+Math.abs(c.diff)}</td><td>${best&&c.label===best.label?'<b style="color:#e60012">推荐</b>':c.remaining<=0?'已覆盖':c.waived?'可抹除':c.overWaiveLimit?'超上限':'补托运'}</td></tr>`).join('');
  if(best){$('recPeople').textContent=best.label;$('recUp').textContent=best.planTotal;$('recBag').textContent=bagTotal;$('recDiff').textContent=best.abs;$('recText').textContent=best.diff<0?`${best.people} 人升舱，${best.remainderText}，方案便宜 ${best.abs} 元`:best.diff>0?`${best.people} 人升舱，${best.remainderText}，方案贵 ${best.abs} 元`:`${best.people} 人升舱，${best.remainderText}，价格相同`;}else{$('recPeople').textContent='暂无方案';$('recUp').textContent='—';$('recBag').textContent=bagTotal;$('recDiff').textContent='—';$('recText').textContent='请检查旅客人数和行李重量。';}
  const productText=products.map(p=>`${p.label} ¥${p.price}`).join('，');
- $('ruleNote').innerHTML=`当前规则：<b>${data[a].name}</b> · <b>${data[a].routes[d].name}</b> · ${rowType==='first'?'悦享经济舱第一排':'悦享经济舱二、三排'}。可组合产品：${productText}。系统会自动组合不同升舱产品，例如 10KG + 15KG = 25KG；未覆盖的剩余行李按托运单价补算，总行李超过30kg且剩余1-3kg时显示可抹除。`;
+ const remainText={auto:'自动按规则：按每10kg升舱行李额最多抹除1kg，符合则抹除，不符合则按托运补算。',checked:'剩余全部托运：未被升舱行李额覆盖的公斤数全部按托运单价补算。',covered:'剩余按抹除上限：只在抹除上限内按已覆盖处理，超过上限会提示超出并继续按托运补算。'}[remainMode];
+ $('ruleNote').innerHTML=`当前规则：<b>${data[a].name}</b> · <b>${data[a].routes[d].name}</b> · ${rowType==='first'?'悦享经济舱第一排':'悦享经济舱二、三排'}。可组合产品：${productText}。系统会自动组合不同升舱产品，例如 10KG + 15KG = 25KG。${remainText}`;
 }
 try{
-  fillAirlines();fillRowPills();fillRoutes();calculate();
+  fillAirlines();fillRowPills();fillRemainPills();fillRoutes();calculate();
   $('airline').addEventListener('change',()=>{fillRoutes();calculate()});
   $('dest').addEventListener('change',()=>{refreshBagPills();calculate()});
   $('pax').addEventListener('input',calculate);
   $('excess').addEventListener('input',calculate);
   $('calc').addEventListener('click',calculate);
-  $('reset').addEventListener('click',()=>{$('airline').value='8L';fillRoutes();$('pax').value=5;$('excess').value=30;rowType='first';fillRowPills();refreshBagPills();calculate();});
+  $('reset').addEventListener('click',()=>{$('airline').value='8L';fillRoutes();$('pax').value=5;$('excess').value=30;rowType='first';remainMode='auto';fillRowPills();fillRemainPills();refreshBagPills();calculate();});
 }catch(err){
   const box=document.getElementById('jsError'); if(box){box.style.display='block';box.textContent='网页脚本运行失败：'+err.message;}
   console.error(err);
