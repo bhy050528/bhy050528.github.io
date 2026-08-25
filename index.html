@@ -16,6 +16,7 @@ header{background:linear-gradient(135deg,#d90010,#ef1824);color:#fff;padding:18p
 .brand{font-size:25px;font-weight:900}.sub{font-size:13px;opacity:.92;margin-top:3px}.badge{border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:7px 11px;font-size:12px}
 .main{max-width:1200px;margin:22px auto;padding:0 14px 32px;display:grid;grid-template-columns:390px 1fr;gap:18px}
 .card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 26px rgba(0,0,0,.045);overflow:hidden}
+.main>*{min-width:0}
 .section{padding:18px;border-bottom:1px solid var(--line)}.section:last-child{border-bottom:none}
 .section-title{display:flex;align-items:center;gap:9px;font-weight:900;font-size:17px;margin-bottom:14px}.step{width:26px;height:26px;border-radius:8px;background:var(--red);color:#fff;display:grid;place-items:center;font-size:13px}
 label{display:block;font-size:13px;font-weight:800;margin-bottom:7px}.field{margin-bottom:12px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -25,10 +26,10 @@ select:focus,input:focus{border-color:#ef7179;box-shadow:0 0 0 3px rgba(230,0,18
 .tip{border:1px solid #f0d99b;background:var(--warn-bg);color:#7e5900;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.6}
 .pills{display:flex;flex-wrap:wrap;gap:8px}.pill{padding:9px 12px;border:1px solid #dfe2e7;background:#fff;border-radius:999px;font-size:13px;cursor:pointer;user-select:none}.pill.active{border-color:#ff8b92;background:#fff1f2;color:#c90010;font-weight:800}
 .actions{display:grid;grid-template-columns:110px 1fr;gap:10px;margin-top:6px}.btn{height:46px;border:0;border-radius:11px;font-size:15px;font-weight:900;cursor:pointer}.secondary{background:#f0f1f3}.primary{background:var(--red);color:#fff}.primary:hover{background:var(--red-dark)}
-.right{display:flex;flex-direction:column;gap:18px}.pad{padding:18px}.title2{font-size:18px;font-weight:900;margin-bottom:14px}
+.right{display:flex;flex-direction:column;gap:18px;min-width:0}.pad{padding:18px}.title2{font-size:18px;font-weight:900;margin-bottom:14px}
 .summary{display:grid;grid-template-columns:1.2fr 1fr 1.25fr;border:1px solid #d9f0df;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#f7fff9,#fff)}
 .sum{padding:18px}.sum+.sum{border-left:1px solid #e4eee7}.k{font-size:12px;color:var(--muted);margin-bottom:5px}.v{font-size:28px;font-weight:950}.green{color:var(--green)}.small{font-size:12px;color:var(--muted);margin-top:4px}
-.table-wrap{overflow:auto;border:1px solid #eceef1;border-radius:12px}table{width:100%;border-collapse:collapse;min-width:650px;font-size:13px}th,td{padding:12px 10px;border-bottom:1px solid #eceef1;text-align:center}th{background:#fafafa;color:#555;font-weight:900}.best{background:#fff4f5}.neg{color:var(--green);font-weight:900}.pos{color:var(--red);font-weight:900}
+.table-wrap{overflow:auto;border:1px solid #eceef1;border-radius:12px}table{width:100%;border-collapse:collapse;min-width:780px;font-size:13px}th,td{padding:12px 10px;border-bottom:1px solid #eceef1;text-align:center}th{background:#fafafa;color:#555;font-weight:900}.best{background:#fff4f5}.neg{color:var(--green);font-weight:900}.pos{color:var(--red);font-weight:900}.bad{color:#8a8e95;font-weight:800}
 .recommend{margin-top:16px;border:1px solid #ff9ca4;background:linear-gradient(135deg,#fff7f8,#fff);border-radius:14px;padding:16px;display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:12px;align-items:center}.rec-label{font-size:13px;color:var(--red);font-weight:900}.rec-main{font-size:28px;color:var(--red);font-weight:950}
 .rule{background:var(--blue-bg);border:1px solid #cfe0ff;color:#334b6e;border-radius:12px;padding:13px 14px;font-size:12px;line-height:1.8}
 .data-note{font-size:11px;color:#8a8e95;line-height:1.7}.footer{max-width:1200px;margin:0 auto;padding:0 14px 28px;color:#8a8e95;font-size:12px}
@@ -38,7 +39,7 @@ select:focus,input:focus{border-color:#ef7179;box-shadow:0 0 0 3px rgba(230,0,18
 <body>
 <header>
   <div class="header-inner">
-    <div><div class="brand">✈ 升舱计算器</div><div class="sub">托运行李价格 × 升舱价格 · 自动对比最接近方案</div></div>
+    <div><div class="brand">✈ 升舱计算器</div><div class="sub">托运行李价格 × 升舱行李额 · 自动推荐可覆盖方案</div></div>
     <div class="badge">可选择 · 可计算</div>
   </div>
 </header>
@@ -61,18 +62,18 @@ select:focus,input:focus{border-color:#ef7179;box-shadow:0 0 0 3px rgba(230,0,18
         <div class="field"><label>一起出行旅客人数</label><input id="pax" type="number" min="1" max="20" value="5" /></div>
         <div class="field"><label>整组旅客合计超额行李（kg）</label><input id="excess" type="number" min="0" step="1" value="30" /></div>
       </div>
-      <div class="tip">这里填写的是这组旅客一共超出的行李公斤数，不是每位旅客分别超多少。</div>
+      <div class="tip">这里填写的是这组旅客一共需要处理的超额行李公斤数。推荐升舱时，会自动计算升舱附带行李额，剩余行李可按托运单价补算；总行李超过30kg且剩余1-3kg时，会显示可抹除。</div>
     </div>
 
     <div class="section">
       <div class="section-title"><span class="step">3</span>升舱方案</div>
       <div class="field"><label>悦享经济舱排数</label><div class="pills" id="rowPills"></div></div>
-      <div class="field"><label>升舱产品行李档位</label><div class="pills" id="bagPills"></div></div>
+      <div class="field"><label>可组合的升舱产品</label><div class="pills" id="bagPills"></div></div>
       <div class="actions"><button class="btn secondary" id="reset">重置</button><button class="btn primary" id="calc">开始计算</button></div>
     </div>
 
     <div class="section">
-      <div class="data-note">当前演示数据来自你提供的祥鹏航空 8L、西部航空 PN、首都航空 JD 升舱价目表。托运行李按航距：＜800km = 15元/kg；800–＜1600km = 20元/kg；≥1600km = 25元/kg。</div>
+      <div class="data-note">当前演示数据来自你提供的祥鹏航空 8L、西部航空 PN、首都航空 JD 升舱价目表。托运行李按航距：＜800km = 15元/kg；800–＜1600km = 20元/kg；≥1600km = 25元/kg。升舱推荐会自动组合无行李、10KG、15KG、20KG等产品，并把剩余未覆盖行李按托运或抹除规则一起计算。</div>
     </div>
   </aside>
 
@@ -90,13 +91,13 @@ select:focus,input:focus{border-color:#ef7179;box-shadow:0 0 0 3px rgba(230,0,18
       <div class="title2">升舱方案对比</div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>升舱人数</th><th>单人升舱价</th><th>升舱总价</th><th>与托运差额</th><th>结果</th></tr></thead>
+          <thead><tr><th>升舱组合</th><th>升舱人数</th><th>升舱行李额</th><th>剩余处理</th><th>方案总价</th><th>与全托运差额</th><th>结果</th></tr></thead>
           <tbody id="rows"></tbody>
         </table>
       </div>
       <div class="recommend">
         <div><div class="rec-label">推荐方案</div><div class="rec-main" id="recPeople">—</div></div>
-        <div><div class="k">升舱总价</div><div class="v" style="font-size:22px">¥ <span id="recUp">—</span></div></div>
+        <div><div class="k">方案总价</div><div class="v" style="font-size:22px">¥ <span id="recUp">—</span></div></div>
         <div><div class="k">托运总价</div><div class="v" style="font-size:22px">¥ <span id="recBag">—</span></div></div>
         <div><div class="k">绝对差额</div><div class="v" style="font-size:22px">¥ <span id="recDiff">—</span></div><div class="small" id="recText"></div></div>
       </div>
@@ -150,24 +151,60 @@ const data={
   NNG:{name:'南宁 NNG',first:{none:168,k10:268,k15:348,k20:398},other:{none:128,k10:228,k15:308,k20:358}}
  }}
 };
-let rowType='first',bagType='k10';
+const bagAllowance={none:0,k10:10,k15:15,k20:20};
+const bagLabels={none:'无行李',k10:'带行李10KG',k15:'带行李15KG',k20:'带行李20KG'};
+let rowType='first';
 const $=id=>document.getElementById(id);
 function hav(a,b){const R=6371,r=x=>x*Math.PI/180,[la1,lo1]=a,[la2,lo2]=b,dLa=r(la2-la1),dLo=r(lo2-lo1);const s=Math.sin(dLa/2)**2+Math.cos(r(la1))*Math.cos(r(la2))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(s));}
 function rateByDistance(km){return km<800?15:km<1600?20:25}
 function fillAirlines(){ $('airline').innerHTML=Object.entries(data).map(([k,v])=>`<option value="${k}">${v.name}</option>`).join(''); }
 function fillRoutes(){const a=$('airline').value;$('dest').innerHTML=Object.entries(data[a].routes).map(([k,v])=>`<option value="${k}">${v.name}</option>`).join('');refreshBagPills();}
 function fillRowPills(){ $('rowPills').innerHTML=`<div class="pill active" data-v="first">悦享经济舱第一排</div><div class="pill" data-v="other">悦享经济舱二、三排</div>`;[...$('rowPills').children].forEach(p=>p.onclick=()=>{rowType=p.dataset.v;[...$('rowPills').children].forEach(x=>x.classList.toggle('active',x===p));refreshBagPills();calculate();});}
-function refreshBagPills(){const r=data[$('airline').value].routes[$('dest').value][rowType];const labels={none:'无行李',k10:'带行李10KG',k15:'带行李15KG',k20:'带行李20KG'};const keys=Object.keys(r);if(!keys.includes(bagType))bagType=keys.includes('k10')?'k10':keys[0];$('bagPills').innerHTML=keys.map(k=>`<div class="pill ${k===bagType?'active':''}" data-v="${k}">${labels[k]}</div>`).join('');[...$('bagPills').children].forEach(p=>p.onclick=()=>{bagType=p.dataset.v;refreshBagPills();calculate();});}
+function refreshBagPills(){const r=data[$('airline').value].routes[$('dest').value][rowType];const keys=Object.keys(r);$('bagPills').innerHTML=keys.map(k=>`<div class="pill active" data-v="${k}">${bagLabels[k]} · ¥${r[k]}</div>`).join('');}
+function buildCombos(products,pax){
+ const results=[];
+ function walk(start,chosen,covered,total){
+  if(chosen.length>0)results.push({items:[...chosen],people:chosen.length,covered,total});
+  if(chosen.length>=pax)return;
+  for(let i=start;i<products.length;i++){
+   const p=products[i];
+   chosen.push(p);
+   walk(i,chosen,covered+p.allowance,total+p.price);
+   chosen.pop();
+  }
+ }
+ walk(0,[],0,0);
+ return results;
+}
+function comboLabel(combo){
+ const counts={};
+ combo.items.forEach(p=>counts[p.key]=(counts[p.key]||0)+1);
+ return Object.keys(counts).sort((a,b)=>bagAllowance[a]-bagAllowance[b]).map(k=>`${bagLabels[k]}×${counts[k]}`).join(' + ');
+}
+function remainderRule(kg,covered,rate){
+ const remaining=Math.max(0,kg-covered);
+ const waived=kg>30&&remaining>=1&&remaining<=3;
+ return {
+  remaining,
+  waived,
+  checkedKg: waived?0:remaining,
+  fee: waived?0:Math.round(remaining*rate),
+  text: remaining<=0?'已覆盖':waived?`${remaining} kg 可抹除`:`另托运 ${remaining} kg`
+ };
+}
 function calculate(){
  const a=$('airline').value,d=$('dest').value,pax=Math.max(1,parseInt($('pax').value||1)),kg=Math.max(0,parseFloat($('excess').value||0));
- const km=Math.round(hav(airports.DLU,airports[d]));const rate=rateByDistance(km);const bagTotal=Math.round(kg*rate);const unit=data[a].routes[d][rowType][bagType];
+ const km=Math.round(hav(airports.DLU,airports[d]));const rate=rateByDistance(km);const bagTotal=Math.round(kg*rate);const route=data[a].routes[d][rowType];
+ const products=Object.entries(route).map(([key,price])=>({key,price,allowance:bagAllowance[key]||0,label:bagLabels[key]})).sort((x,y)=>x.allowance-y.allowance||x.price-y.price);
+ const combos=buildCombos(products,pax).map(c=>{const rem=remainderRule(kg,c.covered,rate),planTotal=c.total+rem.fee,diff=planTotal-bagTotal;return {...c,label:comboLabel(c),remaining:rem.remaining,waived:rem.waived,remainderText:rem.text,remainderFee:rem.fee,planTotal,diff,abs:Math.abs(diff)};});
  $('routeInfo').innerHTML=`航距约 <b>${km.toLocaleString()} km</b><br>托运行李单价：<b>${rate} 元/kg</b>（${km<800?'＜800':km<1600?'800–＜1600':'≥1600'} km）`;
  $('sumKg').textContent=kg;$('rate').textContent=rate;$('bagTotal').textContent=bagTotal;$('formula').textContent=`${kg} × ${rate} = ${bagTotal} 元`;
- let best=null;for(let i=1;i<=pax;i++){const up=i*unit,diff=up-bagTotal,abs=Math.abs(diff);if(!best||abs<best.abs||(abs===best.abs&&up<best.up))best={i,up,diff,abs};}
- let html='';for(let i=1;i<=pax;i++){const up=i*unit,diff=up-bagTotal,is=i===best.i;html+=`<tr class="${is?'best':''}"><td>${i} 人</td><td>¥ ${unit}</td><td>¥ ${up}</td><td class="${diff<=0?'neg':'pos'}">${diff===0?'¥ 0':diff>0?'+ ¥ '+diff:'- ¥ '+Math.abs(diff)}</td><td>${is?'<b style="color:#e60012">推荐</b>':'—'}</td></tr>`;}$('rows').innerHTML=html;
- $('recPeople').textContent=`${best.i} 人升舱`;$('recUp').textContent=best.up;$('recBag').textContent=bagTotal;$('recDiff').textContent=best.abs;$('recText').textContent=best.diff<0?`升舱便宜 ${best.abs} 元`:best.diff>0?`升舱贵 ${best.abs} 元`:'价格相同';
- const bagLabel={none:'无行李',k10:'带行李10KG',k15:'带行李15KG',k20:'带行李20KG'}[bagType];
- $('ruleNote').innerHTML=`当前规则：<b>${data[a].name}</b> · <b>${data[a].routes[d].name}</b> · ${rowType==='first'?'悦享经济舱第一排':'悦享经济舱二、三排'} · ${bagLabel} · 单人升舱 <b>¥${unit}</b>。系统会在 1–${pax} 人中自动找出与整组托运总价差额最小的升舱人数。`;
+ const best=combos.sort((x,y)=>x.abs-y.abs||x.planTotal-y.planTotal||x.remaining-y.remaining||x.people-y.people||x.covered-y.covered)[0]||null;
+ const shown=[...(best?[best]:[]),...combos.filter(c=>!best||c.label!==best.label).sort((x,y)=>x.abs-y.abs||x.planTotal-y.planTotal||x.remaining-y.remaining||x.people-y.people||x.covered-y.covered)].slice(0,10);
+ $('rows').innerHTML=shown.map(c=>`<tr class="${best&&c.label===best.label?'best':''}"><td>${c.label}</td><td>${c.people} 人</td><td>${c.covered} kg</td><td>${c.remainderText}${c.remainderFee?` · ¥${c.remainderFee}`:''}</td><td>¥ ${c.planTotal}</td><td class="${c.diff<=0?'neg':'pos'}">${c.diff===0?'¥ 0':c.diff>0?'+ ¥ '+c.diff:'- ¥ '+Math.abs(c.diff)}</td><td>${best&&c.label===best.label?'<b style="color:#e60012">推荐</b>':c.remaining<=0?'已覆盖':c.waived?'可抹除':'补托运'}</td></tr>`).join('');
+ if(best){$('recPeople').textContent=best.label;$('recUp').textContent=best.planTotal;$('recBag').textContent=bagTotal;$('recDiff').textContent=best.abs;$('recText').textContent=best.diff<0?`${best.people} 人升舱，${best.remainderText}，方案便宜 ${best.abs} 元`:best.diff>0?`${best.people} 人升舱，${best.remainderText}，方案贵 ${best.abs} 元`:`${best.people} 人升舱，${best.remainderText}，价格相同`;}else{$('recPeople').textContent='暂无方案';$('recUp').textContent='—';$('recBag').textContent=bagTotal;$('recDiff').textContent='—';$('recText').textContent='请检查旅客人数和行李重量。';}
+ const productText=products.map(p=>`${p.label} ¥${p.price}`).join('，');
+ $('ruleNote').innerHTML=`当前规则：<b>${data[a].name}</b> · <b>${data[a].routes[d].name}</b> · ${rowType==='first'?'悦享经济舱第一排':'悦享经济舱二、三排'}。可组合产品：${productText}。系统会自动组合不同升舱产品，例如 10KG + 15KG = 25KG；未覆盖的剩余行李按托运单价补算，总行李超过30kg且剩余1-3kg时显示可抹除。`;
 }
 try{
   fillAirlines();fillRowPills();fillRoutes();calculate();
@@ -176,7 +213,7 @@ try{
   $('pax').addEventListener('input',calculate);
   $('excess').addEventListener('input',calculate);
   $('calc').addEventListener('click',calculate);
-  $('reset').addEventListener('click',()=>{$('airline').value='8L';fillRoutes();$('pax').value=5;$('excess').value=30;rowType='first';bagType='k10';fillRowPills();refreshBagPills();calculate();});
+  $('reset').addEventListener('click',()=>{$('airline').value='8L';fillRoutes();$('pax').value=5;$('excess').value=30;rowType='first';fillRowPills();refreshBagPills();calculate();});
 }catch(err){
   const box=document.getElementById('jsError'); if(box){box.style.display='block';box.textContent='网页脚本运行失败：'+err.message;}
   console.error(err);
